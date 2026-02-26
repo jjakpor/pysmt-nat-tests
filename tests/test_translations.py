@@ -2,6 +2,7 @@ import pytest
 from pathlib import Path
 from pysmt.shortcuts import is_sat, is_unsat
 from pysmt.smtlib.parser import get_formula
+from pysmt.environment import Environment
 
 SOLVER_NAME = "cvc5"
 FORMULAS_DIR = Path(__file__).parent.parent / "formulas"
@@ -17,12 +18,14 @@ def _collect(expected_sat: bool):
 
 @_collect(expected_sat=True)
 def test_sat(formula_path):
-    formula = get_formula(formula_path.open())
+    env = Environment()
+    formula = get_formula(formula_path.open(), environment=env)
     assert is_sat(formula, solver_name=SOLVER_NAME), \
         f"{formula_path.name} expected SAT but got UNSAT"
 
 @_collect(expected_sat=False)
 def test_unsat(formula_path):
-    formula = get_formula(formula_path.open())
+    env = Environment()
+    formula = get_formula(formula_path.open(), environment=env)
     assert is_unsat(formula, solver_name=SOLVER_NAME), \
         f"{formula_path.name} expected UNSAT but got SAT"
