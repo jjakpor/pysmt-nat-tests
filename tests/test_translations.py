@@ -13,6 +13,19 @@ def test_sat():
     formula = get_formula(StringIO(smtlib_content))
     assert is_sat(formula, solver_name=SOLVER_NAME)
 
+def test_sat_2():
+    # x + y >= x for x, y in Nat
+    # we test validity by checking unsat of the negation
+    smtlib_content = """
+    (declare-const x Nat)
+    (declare-const y Nat)
+
+    ; negation is x + y < x
+    (assert (< (+ x y) x))
+    """
+    formula = get_formula(StringIO(smtlib_content))
+    assert is_unsat(formula, solver_name=SOLVER_NAME)
+
 def test_unsat():
     # x in Nat, x < 0
     smtlib_content = """
