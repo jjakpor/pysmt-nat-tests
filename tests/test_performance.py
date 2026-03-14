@@ -11,7 +11,7 @@ TIMEOUT = 30 # Timeout for cvc5 in seconds
 INPUT_DIR = "performance_benchmarks"
 OUTPUT_FILE = "test_results.csv"
 
-files = glob(f"{INPUT_DIR}/**/**.smt2", recursive=True)
+files = glob(f"{INPUT_DIR}/**/*.smt2", recursive=True)
 
 """
 Takes in a file and returns the lifted formula.
